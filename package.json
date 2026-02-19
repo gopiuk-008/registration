@@ -1,0 +1,22 @@
+{
+  "name": "symposium4.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api/next.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api/next.js",
+    "dev": "node api/next.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.5",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^4.22.1",
+    "pg": "^8.18.0"
+  }
+}
