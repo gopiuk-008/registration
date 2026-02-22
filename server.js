@@ -7,9 +7,12 @@ dotenv.config();
 
 const app = express();
 
+const path = require('path');
+
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname)); // Serve static files from the root directory
 
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -19,7 +22,7 @@ mongoose.connect(MONGODB_URI)
 
 // Health Check Routes
 app.get('/', (req, res) => {
-    res.send('Symposium Registration Backend is running!');
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/api/status', (req, res) => {
