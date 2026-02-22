@@ -44,12 +44,12 @@ const registrationSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: String, required: true },
-    rollNumber: { type: String, required: true },
+    rollNumber: { type: String, required: true, unique: true },
     college: { type: String, required: true },
     department: { type: String, required: true },
     year: { type: String, required: true },
     events: { type: String, required: true },
-    transactionId: { type: String, required: true },
+    transactionId: { type: String, required: true, unique: true },
     paymentMode: { type: String, required: true },
     paymentStatus: { type: String, default: 'Pending' },
     registrationDate: { type: Date, default: Date.now }
@@ -75,10 +75,20 @@ app.post('/api/register', async (req, res) => {
             return res.status(400).json({ status: 'error', message: 'A valid email is required' });
         }
 
-        // Check for existing registration with the same email
-        const existingRegistration = await Registration.findOne({ email: registrationData.email });
-        if (existingRegistration) {
+        // Check for existing registration with the same email, rollNumber, or transactionId
+        const existingEmail = await Registration.findOne({ email: registrationData.email });
+        if (existingEmail) {
             return res.status(409).json({ status: 'error', message: 'This email has already been registered.' });
+        }
+
+        const existingRollNumber = await Registration.findOne({ rollNumber: registrationData.rollNumber });
+        if (existingRollNumber) {
+            return res.status(409).json({ status: 'error', message: 'This Roll Number has already been registered.' });
+        }
+
+        const existingTransaction = await Registration.findOne({ transactionId: registrationData.transactionId });
+        if (existingTransaction) {
+            return res.status(409).json({ status: 'error', message: 'This Transaction ID has already been used.' });
         }
 
         const newRegistration = new Registration(registrationData);
