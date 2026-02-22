@@ -399,7 +399,8 @@
                         <div
                             style="background: rgba(122, 93, 168, 0.073); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1);">
                             <p style="font-weight: 600; margin-bottom: 0.25rem; font-size: 1.2rem;">🎉 Registration Fee:
-                                <strong>₹150</strong></p>
+                                <strong>₹150</strong>
+                            </p>
 
                             <p style="font-size: 0.9rem; color: #e7e2e2; margin-bottom: 1rem;">Please scan the QR code
                                 to complete the payment.</p>
@@ -408,7 +409,8 @@
                                     style="width: 150px; height: 150px; border-radius: 8px; border: 2px solid var(--border);">
                             </a>
                             <p style="margin: 1rem 0 0.5rem; color: #dfd8d8;">UPI ID:
-                                <strong>gobinathbsccs-1@okaxis</strong></p>
+                                <strong>gobinathbsccs-1@okaxis</strong>
+                            </p>
 
                             <div style="text-align: left; max-width: 300px; margin: 1.5rem auto 0; color: #ddd;">
                                 <p style="margin-bottom: 0.5rem;">📌 <strong>After payment:</strong></p>
@@ -638,8 +640,8 @@
 
             // Send data to Backend API
             const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000/api/register'
-                : '/api/register'; // Assuming frontend and backend are hosted on same domain in production
+                ? 'http://localhost:5001/api/register'
+                : 'https://registration-6lg8.onrender.com/api/register';
 
             fetch(API_URL, {
                 method: 'POST',
