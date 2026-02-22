@@ -16,9 +16,19 @@ app.use(express.static(__dirname)); // Serve static files from the root director
 
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+    console.error('CRITICAL: MONGODB_URI is not defined in environment variables!');
+}
+
 mongoose.connect(MONGODB_URI)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('Could not connect to MongoDB', err));
+    .then(() => console.log('Connected to MongoDB Successfully'))
+    .catch(err => {
+        console.error('MongoDB Connection Error Details:', err.message);
+        if (err.message.includes('IP not whitelisted')) {
+            console.error('ACTION REQUIRED: Please whitelist 0.0.0.0/0 in MongoDB Atlas Network Access.');
+        }
+    });
 
 // Health Check Routes
 app.get('/', (req, res) => {

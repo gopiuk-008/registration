@@ -641,7 +641,7 @@
             // Send data to Backend API
             const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
                 ? 'http://localhost:5001/api/register'
-                : 'https://registration-6lg8.onrender.com/api/register';
+                : '/api/register';
 
             fetch(API_URL, {
                 method: 'POST',
