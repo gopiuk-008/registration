@@ -39,18 +39,30 @@ const Registration = mongoose.model('Registration', registrationSchema);
 app.post('/api/register', async (req, res) => {
     try {
         const registrationData = req.body;
-        
-        // Simple validation
+
+        // Enhanced validation
         const requiredFields = ['name', 'email', 'phone', 'rollNumber', 'college', 'department', 'year', 'events', 'transactionId', 'paymentMode'];
         for (const field of requiredFields) {
-            if (!registrationData[field]) {
+            // Check for presence and that string fields are not just empty spaces
+            if (!registrationData[field] || (typeof registrationData[field] === 'string' && registrationData[field].trim() === '')) {
                 return res.status(400).json({ status: 'error', message: `Field ${field} is required` });
             }
         }
 
+        // Optional: More specific validation for email format
+        if (!/\S+@\S+\.\S+/.test(registrationData.email)) {
+            return res.status(400).json({ status: 'error', message: 'A valid email is required' });
+        }
+
+        // Check for existing registration with the same email
+        const existingRegistration = await Registration.findOne({ email: registrationData.email });
+        if (existingRegistration) {
+            return res.status(409).json({ status: 'error', message: 'This email has already been registered.' });
+        }
+
         const newRegistration = new Registration(registrationData);
         await newRegistration.save();
-        
+
         res.status(201).json({ status: 'success', message: 'Registration successful!' });
     } catch (error) {
         console.error('Registration Error:', error);
@@ -59,7 +71,7 @@ app.post('/api/register', async (req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
