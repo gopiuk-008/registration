@@ -97,7 +97,15 @@ app.post('/api/register', async (req, res) => {
         res.status(201).json({ status: 'success', message: 'Registration successful!' });
     } catch (error) {
         console.error('Registration Error:', error);
-        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+
+        // Handle MongoDB duplicate key error (E11000)
+        if (error.code === 11000) {
+            const field = Object.keys(error.keyPattern)[0];
+            const message = `This ${field} has already been registered. Please use a unique value.`;
+            return res.status(409).json({ status: 'error', message });
+        }
+
+        res.status(500).json({ status: 'error', message: 'Internal Server Error: ' + error.message });
     }
 });
 
