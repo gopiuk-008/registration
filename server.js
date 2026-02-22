@@ -17,6 +17,15 @@ mongoose.connect(MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB', err));
 
+// Health Check Routes
+app.get('/', (req, res) => {
+    res.send('Symposium Registration Backend is running!');
+});
+
+app.get('/api/status', (req, res) => {
+    res.json({ status: 'success', message: 'Backend is running and connected to MongoDB' });
+});
+
 // Registration Schema
 const registrationSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -43,7 +52,6 @@ app.post('/api/register', async (req, res) => {
         // Enhanced validation
         const requiredFields = ['name', 'email', 'phone', 'rollNumber', 'college', 'department', 'year', 'events', 'transactionId', 'paymentMode'];
         for (const field of requiredFields) {
-            // Check for presence and that string fields are not just empty spaces
             if (!registrationData[field] || (typeof registrationData[field] === 'string' && registrationData[field].trim() === '')) {
                 return res.status(400).json({ status: 'error', message: `Field ${field} is required` });
             }
