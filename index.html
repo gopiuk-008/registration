@@ -278,16 +278,16 @@
                             <label>Department *</label>
                             <select name="department" required>
                                 <option value="">Select Dept</option>
-                            <option value="BCA">BCA</option>
-                            <option value="B.Sc (CS)">B.Sc (CS)</option>
-                            <option value="B.Sc (IT)">B.Sc (IT)</option>
-                            <option value="B.Sc (AI & DS)">B.Sc (AI & DS)</option>
-                            <option value="B.Sc (Maths)">B.Sc (Maths)</option>
-                            <option value="B.Sc (Physics)">B.Sc (Physics)</option>
-                            <option value="B.Sc (Chemistry)">B.Sc (Chemistry)</option>
-                            <option value="BCOM">BCOM</option>
-                            <option value="BCOM-CA">BCOM-CA</option>
-                            <option value="Others">Others</option>
+                                <option value="BCA">BCA</option>
+                                <option value="B.Sc (CS)">B.Sc (CS)</option>
+                                <option value="B.Sc (IT)">B.Sc (IT)</option>
+                                <option value="B.Sc (AI & DS)">B.Sc (AI & DS)</option>
+                                <option value="B.Sc (Maths)">B.Sc (Maths)</option>
+                                <option value="B.Sc (Physics)">B.Sc (Physics)</option>
+                                <option value="B.Sc (Chemistry)">B.Sc (Chemistry)</option>
+                                <option value="BCOM">BCOM</option>
+                                <option value="BCOM-CA">BCOM-CA</option>
+                                <option value="Others">Others</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -468,10 +468,14 @@
             <span class="close-button">&times;</span>
             <h3 id="modalEventTitle"></h3>
             <p id="modalEventDescription"></p>
-            <h4>Rules:</h4>
+            <div id="modalTopicsSection" style="display:none;">
+                <h4>📋 Topics:</h4>
+                <ul id="modalEventTopics"></ul>
+            </div>
+            <h4>📜 Rules:</h4>
             <ul id="modalEventRules"></ul>
-            <h4>Coordinators:</h4>
-            <p id="modalEventCoordinators"></p>
+            <h4>📞 Coordinators:</h4>
+            <ul id="modalEventCoordinators"></ul>
         </div>
     </div>
 
@@ -677,24 +681,25 @@
         // Event Modal
         const eventData = {
             'BrinWave Summit': {
-                Title: [
-                    '1. Biotechnology & AI in Healthcare.',
-                    '2. Role of Robotics in Modern Society.',
-                    '3. Digital Banking & FinTech Revolution.',
-                    '4. Space Technology & Indias growth.',
-                    '5. Cyber Security: Protecting the Digital World.'
-                        ],
+                description: 'Present your research and innovative ideas on cutting-edge technologies. Choose a topic from the list below or pick your own open topic!',
+                topics: [
+                    '1. Biotechnology & AI in Healthcare',
+                    '2. Role of Robotics in Modern Society',
+                    '3. Digital Banking & FinTech Revolution',
+                    '4. Space Technology & India\'s Growth',
+                    '5. Cyber Security: Protecting the Digital World'
+                ],
                 rules: [
                     'Each team can consist of 1–3 members.',
                     'PPT must be submitted before the specified deadline.',
                     'Presentation time: 8–10 minutes',
                     'Judging will be based on content quality, clarity, innovation, presentation skills, and response to questions.',
-                    'The decision of the judges will be final .',
-                    'Topic can be chosen by the student.(open topic)',
-                    'slides:-  min -8 /max:12 - 15.',
-                    'format : .ppt/.pdf/.pptx',
-                    'keep a backup copy (USB/Email)',
-                    'MAIL ID: mcakiot@gmail.com (share your ppt to this mail)'
+                    'The decision of the judges will be final.',
+                    'Topic can be chosen by the student. (open topic)',
+                    'Slides: min 8 / max 12–15.',
+                    'Format: .ppt / .pdf / .pptx',
+                    'Keep a backup copy (USB/Email)',
+                    'Mail ID: mcakiot@gmail.com (share your PPT to this mail)'
                 ],
                 coordinators: ['Dharvin A - 6374667418',
                     'Nandhini P - 8248529186',
@@ -758,8 +763,24 @@
 
                 if (data) {
                     modalTitle.textContent = eventName;
-                    modalDescription.textContent = data.description;
+                    modalDescription.textContent = data.description || '';
 
+                    // Topics section (BrinWave Summit)
+                    const topicsSection = document.getElementById('modalTopicsSection');
+                    const modalTopics = document.getElementById('modalEventTopics');
+                    if (data.topics && data.topics.length > 0) {
+                        modalTopics.innerHTML = '';
+                        data.topics.forEach(topic => {
+                            const li = document.createElement('li');
+                            li.textContent = topic;
+                            modalTopics.appendChild(li);
+                        });
+                        topicsSection.style.display = 'block';
+                    } else {
+                        topicsSection.style.display = 'none';
+                    }
+
+                    // Rules
                     modalRules.innerHTML = '';
                     data.rules.forEach(rule => {
                         const li = document.createElement('li');
@@ -767,7 +788,14 @@
                         modalRules.appendChild(li);
                     });
 
-                    modalCoordinators.textContent = `Contact: ${data.coordinators}`;
+                    // Coordinators
+                    modalCoordinators.innerHTML = '';
+                    data.coordinators.forEach(coord => {
+                        const li = document.createElement('li');
+                        li.textContent = coord;
+                        modalCoordinators.appendChild(li);
+                    });
+
                     modal.style.display = 'block';
                 }
             });
