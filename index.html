@@ -246,6 +246,9 @@
             <div class="section-subtitle">Join the National Level Technical Symposium</div>
 
             <div class="registration-form">
+                <p style="text-align:center; font-weight:600; color:#ffc107; margin-bottom:15px;">
+                    ⏳ Last Date for Registration: <strong>10.03.2026 - 12:00 AM</strong>
+                </p>
                 <form id="registrationForm">
                     <div class="form-row">
                         <div class="form-group">
@@ -444,7 +447,7 @@
 
                 <div class="contact-card">
                     <h3>📞 Faculty Coordinator</h3>
-                    <p><strong>Mrs. G.Sowndarya</strong></p>
+                    <p><strong>Mrs. G.SOWNDARYA</strong></p>
                     <p>Assistant Professor, Department of MCA</p>
                     <a href="tel:+919500452670">+91 9500452670</a>
                     <p style="margin-top: 0.5rem;">
@@ -454,13 +457,13 @@
 
                 <div class="contact-card">
                     <h3>👥 Student Coordinators</h3>
-                    <p><strong>S. Raja Vishagan</strong></p>
+                    <p><strong>S. RAJA VISHAGAN</strong></p>
                     <a href="tel:+919500533173">+91 9500533173</a>
-                    <p style="margin-top: 0.5rem;"><strong>P. Sudharsan</strong></p>
+                    <p style="margin-top: 0.5rem;"><strong>P. SUDHARSAN</strong></p>
                     <a href="tel:+918825451523">+91 8825451523</a>
-                    <p style="margin-top: 0.5rem;"><strong>S. Gobinath</strong></p>
+                    <p style="margin-top: 0.5rem;"><strong>S. GOBINATH</strong></p>
                     <a href="tel:+919790021257">+91 9790021257</a>
-                    <p style="margin-top: 0.5rem;"><strong>K.M. Chandru</strong></p>
+                    <p style="margin-top: 0.5rem;"><strong>K.M. CHANDRU</strong></p>
                     <a href="tel:+919361195679">+91 9361195679</a>
                 </div>
             </div>
@@ -556,6 +559,15 @@
         // Registration Form Handler - Submit to Google Sheet
         document.getElementById('registrationForm').addEventListener('submit', function (e) {
             e.preventDefault();
+
+            // Registration expiry check
+            const lastDate = new Date('2026-03-10T00:00:00').getTime();
+            const currentDate = new Date().getTime();
+
+            if (currentDate > lastDate) {
+                alert('Registration date is expired!');
+                return;
+            }
 
             const formData = new FormData(this);
             const data = {};
@@ -816,6 +828,20 @@
                 modal.style.display = 'none';
             }
         });
+
+        // Disable form if expired
+        const lastDate = new Date('2026-03-10T00:00:00').getTime();
+        const currentDate = new Date().getTime();
+
+        if (currentDate > lastDate) {
+            const form = document.getElementById('registrationForm');
+            form.innerHTML = `
+                <div style="text-align:center; padding:30px;">
+                    <h2 style="color:red;">Registration Closed</h2>
+                    <p>The last date (10.03.2026 - 12:00 AM) has expired.</p>
+                </div>
+            `;
+        }
     </script>
 </body>
 
