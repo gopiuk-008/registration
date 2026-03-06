@@ -267,7 +267,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Phone Number *</label>
-                            <input type="tel" name="phone" required placeholder="10-digit mobile number">
+                            <input type="tel" name="phone" required placeholder="10-digit mobile number"
+                                pattern="[0-9]{10}" maxlength="10" title="Please enter a 10-digit mobile number">
                         </div>
                         <div class="form-group">
                             <label>Roll Number *</label>
@@ -586,6 +587,12 @@
             // Validate form
             if (!data.name || !data.email || !data.phone || !data.rollNumber || !data.college || !data.department || !data.year || events.length < 2 || !data.transactionId || !data.paymentMode) {
                 alert('Please fill all required fields and select one event from each category.');
+                return;
+            }
+
+            // Phone number validation
+            if (!/^\d{10}$/.test(data.phone)) {
+                alert('Please enter a valid 10-digit phone number.');
                 return;
             }
 
