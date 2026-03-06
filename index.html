@@ -316,23 +316,23 @@
                             <div class="event-group">
                                 <label class="event-group-title">Technical</label>
                                 <label class="event-checkbox-label">
-                                    <input type="checkbox" name="events" value="BrinWave Summit" data-group="technical">
-                                    BrinWave Summit
+                                    <input type="radio" name="technical_event" value="BrinWave Summit" required>
+                                    <span>BrainWave Summit</span>
                                 </label>
                                 <label class="event-checkbox-label">
-                                    <input type="checkbox" name="events" value="Bug Busters" data-group="technical"> Bug
-                                    Busters
+                                    <input type="radio" name="technical_event" value="Bug Busters" required>
+                                    <span>Bug Busters</span>
                                 </label>
                             </div>
                             <div class="event-group">
                                 <label class="event-group-title">Non-Technical</label>
                                 <label class="event-checkbox-label">
-                                    <input type="checkbox" name="events" value="Decode Logo" data-group="non-technical">
-                                    Decode Logo
+                                    <input type="radio" name="non_technical_event" value="Decode Logo" required>
+                                    <span>Decode Logo</span>
                                 </label>
                                 <label class="event-checkbox-label">
-                                    <input type="checkbox" name="events" value="Surprise Event"
-                                        data-group="non-technical"> Surprise Event
+                                    <input type="radio" name="non_technical_event" value="Surprise Event" required>
+                                    <span>Surprise Event</span>
                                 </label>
                             </div>
                         </div>
@@ -574,23 +574,23 @@
 
             const formData = new FormData(this);
             const data = {};
+            const events = [];
             formData.forEach((value, key) => {
-                if (key === 'events') {
-                    if (!data['events']) data['events'] = [];
-                    data['events'].push(value);
+                if (key === 'technical_event' || key === 'non_technical_event') {
+                    events.push(value);
                 } else {
                     data[key] = value;
                 }
             });
 
             // Validate form
-            if (!data.name || !data.email || !data.phone || !data.rollNumber || !data.college || !data.department || !data.year || !data.events || data.events.length === 0 || !data.transactionId || !data.paymentMode) {
-                alert('Please fill all required fields, including payment details!');
+            if (!data.name || !data.email || !data.phone || !data.rollNumber || !data.college || !data.department || !data.year || events.length < 2 || !data.transactionId || !data.paymentMode) {
+                alert('Please fill all required fields and select one event from each category.');
                 return;
             }
 
             // Convert events array to string
-            data.events = data.events.join(', ');
+            data.events = events.join(', ');
 
             // Disable submit button
             const submitBtn = this.querySelector('.submit-btn');
@@ -658,33 +658,6 @@
             });
         });
 
-        // Event checkbox validation (one from each group)
-        const eventCheckboxes = document.querySelectorAll('input[name="events"]');
-        eventCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                const currentCheckbox = e.target;
-                const group = currentCheckbox.dataset.group;
-
-                // Find other checkboxes in the same group
-                const checkboxesInGroup = document.querySelectorAll(`input[data-group="${group}"]`);
-
-                if (currentCheckbox.checked) {
-                    // If this one is checked, disable others in the same group
-                    checkboxesInGroup.forEach(cb => {
-                        if (cb !== currentCheckbox) {
-                            cb.disabled = true;
-                            cb.parentElement.style.opacity = '0.6'; // Visual feedback
-                        }
-                    });
-                } else {
-                    // If this one is unchecked, re-enable others in the same group
-                    checkboxesInGroup.forEach(cb => {
-                        cb.disabled = false;
-                        cb.parentElement.style.opacity = '1';
-                    });
-                }
-            });
-        });
     </script>
     <script>
         // Scrolled navigation bar
