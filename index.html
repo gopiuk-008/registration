@@ -59,9 +59,6 @@
                     class="hero-info-item hero-info-button">📍 KIOT-Campus, Salem</a>
             </div>
 
-            <p style="font-weight:600; color:#ffc107; font-size: 1.1rem; margin-top: -1rem; margin-bottom: 2rem;">
-                ⏳ Last Date for Registration: 10.03.2026</p>
-
             <div class="countdown" id="countdown">
                 <div class="countdown-item">
                     <div class="countdown-number" id="days">0</div>
@@ -224,7 +221,7 @@
                         <h3>Mystic Meet</h3>
                     </div>
                     <div class="event-body">
-                        <p> creativity and technical skill.</p>
+                        <p> creativity and technical skill(Surprice event).</p>
                         <div class="event-details">
                             <div>
                                 <div class="detail-label">Team Size</div>
@@ -249,9 +246,6 @@
             <div class="section-subtitle">Join the National Level Technical Symposium</div>
 
             <div class="registration-form">
-                <p style="text-align:center; font-weight:600; color:#ffc107; margin-bottom:15px;">
-                    ⏳ Last Date for Registration: <strong>10.03.2026 - 12:00 AM</strong>
-                </p>
                 <form id="registrationForm">
                     <div class="form-row">
                         <div class="form-group">
@@ -579,15 +573,6 @@
         document.getElementById('registrationForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Registration expiry check
-            const lastDate = new Date('2026-03-10T00:00:00').getTime();
-            const currentDate = new Date().getTime();
-
-            if (currentDate > lastDate) {
-                alert('Registration date is expired!');
-                return;
-            }
-
             const formData = new FormData(this);
             const data = {};
             const events = [];
@@ -827,19 +812,6 @@
             }
         });
 
-        // Disable form if expired
-        const lastDate = new Date('2026-03-10T00:00:00').getTime();
-        const currentDate = new Date().getTime();
-
-        if (currentDate > lastDate) {
-            const form = document.getElementById('registrationForm');
-            form.innerHTML = `
-                <div style="text-align:center; padding:30px;">
-                    <h2 style="color:red;">Registration Closed</h2>
-                    <p>The last date (10.03.2026 - 12:00 AM) has expired.</p>
-                </div>
-            `;
-        }
     </script>
 </body>
 
